@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>公司回购与大股东减仓监控 | 望京博格版</title>
+<style>
+:root{
+  --buy:#d93a33; --red:#17994f; --idx:#2b4b6f;
+  --ink:#1d1d1b; --mut:#8a8377; --line:#e7e2d8;
+  --bg:#fbfaf6; --card:#ffffff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1180px;margin:0 auto;padding:56px 34px 72px}
+.serif{font-family:"Songti SC","STSong","SimSun",Georgia,serif}
+
+/* ---------- hero ---------- */
+.hero{border-bottom:3px solid var(--ink);padding-bottom:22px;margin-bottom:34px}
+.kicker{font-size:12px;letter-spacing:.28em;color:var(--mut);margin-bottom:14px;font-weight:600}
+h1{
+  font-family:"Songti SC","STSong","SimSun",Georgia,serif;
+  font-size:52px;line-height:1.14;margin:0 0 14px;letter-spacing:-.5px;font-weight:700;
+}
+h1 em{font-style:normal;color:var(--buy)}
+.sub{font-size:15px;color:#5d574d;line-height:1.7}
+.sub b{color:var(--ink)}
+
+/* ---------- kpi ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);margin-bottom:30px}
+.kpi{background:var(--card);padding:20px 18px}
+.kl{font-size:12.5px;color:var(--mut);margin-bottom:10px;letter-spacing:.04em}
+.kv{font-size:34px;font-weight:700;line-height:1;letter-spacing:-.5px;
+  font-family:"Helvetica Neue",Arial,sans-serif}
+.kv span{font-size:14px;font-weight:500;margin-left:4px;color:var(--mut);letter-spacing:0}
+.kv.r{color:var(--buy)} .kv.g{color:var(--red)}
+.kd{font-size:11.5px;color:#9c9487;margin-top:9px}
+
+/* ---------- lead ---------- */
+.lead{background:#fff;border-left:4px solid var(--ink);padding:22px 26px;margin-bottom:34px;
+  font-size:15.5px;line-height:1.95;color:#33302b}
+.lead p{margin:0 0 12px}
+.lead p:last-child{margin-bottom:0}
+.lead b{color:var(--ink);white-space:nowrap}
+.lead b.r{color:var(--buy)} .lead b.g{color:var(--red)}
+
+/* ---------- sections ---------- */
+section{margin-bottom:48px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;
+  border-bottom:1px solid var(--line);padding-bottom:10px}
+.sh h2{font-family:"Songti SC","STSong","SimSun",serif;font-size:23px;margin:0;font-weight:700}
+.sh span{font-size:12.5px;color:var(--mut)}
+
+.chart-card{background:#fff;border:1px solid var(--line);padding:20px 16px 10px}
+.chart-card svg{width:100%;height:auto;display:block}
+.cap{font-size:12px;color:var(--mut);line-height:1.8;padding:12px 6px 4px;border-top:1px dashed var(--line);margin-top:8px}
+
+/* ---------- conclusions ---------- */
+.ccards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.ccard{background:#fff;border:1px solid var(--line);padding:22px 20px;position:relative}
+.ccard:before{content:"";position:absolute;left:0;top:0;width:3px;height:100%;background:var(--ink)}
+.ccard:nth-child(1):before{background:var(--red)}
+.ccard:nth-child(2):before{background:var(--buy)}
+.ccard:nth-child(3):before{background:var(--idx)}
+.ct{font-family:"Songti SC","STSong","SimSun",serif;font-size:16px;font-weight:700;margin-bottom:12px}
+.ccard p{margin:0 0 10px;font-size:13.6px;line-height:1.9;color:#3b3833}
+.ccard p:last-child{margin-bottom:0}
+.ccard b.r{color:var(--buy)} .ccard b.g{color:var(--red)}
+.cfoot{margin-top:auto;padding-top:14px;border-top:1px dashed var(--line);
+  font-size:11.5px;color:#9c9487;line-height:1.7}
+.ccard{display:flex;flex-direction:column}
+
+/* ---------- tables ---------- */
+.tbl{width:100%;border-collapse:collapse;background:#fff;font-size:13.5px;
+  border:1px solid var(--line)}
+.tbl th{background:#f4f1ea;font-weight:600;font-size:12px;color:#4a443b;
+  padding:11px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th:first-child,.tbl th:nth-child(2){text-align:left}
+.tbl th span{font-weight:400;font-size:10.5px;color:var(--mut)}
+.tbl td{padding:11px 10px;border-bottom:1px solid #f1ede4;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:#fdfcf9}
+.tbl .yr{font-weight:700;font-family:"Helvetica Neue",Arial,sans-serif;letter-spacing:.02em}
+.tbl .num{text-align:right;font-variant-numeric:tabular-nums;
+  font-family:"Helvetica Neue",Arial,sans-serif}
+.tbl .num.r{color:var(--buy);font-weight:600}
+.tbl .num.g{color:var(--red);font-weight:600}
+.tbl .up{color:var(--buy);font-weight:600} .tbl .down{color:var(--red);font-weight:600}
+.mini{font-size:10.5px;color:var(--mut);font-weight:400}
+.tag{display:inline-block;padding:2px 8px;border-radius:2px;font-size:11.5px;font-weight:600;
+  white-space:nowrap;font-family:"Helvetica Neue",Arial,sans-serif}
+.tag.ok{background:#e8f4ec;color:#177a45}
+.tag.warn{background:#fdf1e3;color:#b06d16}
+.tag.bad{background:#fbe9e7;color:#c0392b}
+.tag.mute{background:#f1eee7;color:#8a8377}
+
+/* ---------- boards ---------- */
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bcard{background:#fff;border:1px solid var(--line);padding:20px}
+.bh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid var(--line)}
+.bh b{font-size:14.5px} .bh span{font-size:11.5px;color:var(--mut)}
+.board{list-style:none;margin:0;padding:0}
+.board li{display:grid;grid-template-columns:18px 58px 1fr 68px;align-items:center;
+  gap:10px;padding:7px 0;font-size:13px}
+.rk{font-size:11px;color:var(--mut);font-family:"Helvetica Neue",Arial,sans-serif}
+.mo{font-family:"Helvetica Neue",Arial,sans-serif;font-variant-numeric:tabular-nums;
+  font-weight:600;color:#3b3833}
+.bar{height:7px;background:#f2efe8;border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:2px}
+.vl{text-align:right;font-family:"Helvetica Neue",Arial,sans-serif;
+  font-variant-numeric:tabular-nums;font-weight:600}
+
+/* ---------- checks ---------- */
+.chk th:nth-child(1){text-align:left;width:12%}
+.chk th:nth-child(2){text-align:left;width:44%}
+.chk th:nth-child(3){text-align:left}
+.chk td.ck{font-weight:700;font-size:13px;color:var(--ink)}
+.chk td.mt{font-size:12.5px;color:#5d574d;line-height:1.75}
+.chk td.rs{font-size:12.5px;color:#3b3833;line-height:1.75}
+.corr{display:flex;gap:26px;margin-top:16px;flex-wrap:wrap}
+.corr div{background:#fff;border:1px solid var(--line);padding:14px 18px;font-size:12.5px;
+  color:var(--mut);flex:1;min-width:210px}
+.corr b{display:block;font-size:24px;color:var(--ink);margin-bottom:5px;
+  font-family:"Helvetica Neue",Arial,sans-serif}
+
+/* ---------- footer ---------- */
+footer{margin-top:56px;padding-top:22px;border-top:3px solid var(--ink);
+  font-size:12px;color:var(--mut);line-height:1.95}
+footer b{color:#4a443b}
+.sig{margin-top:16px;font-family:"Songti SC","STSong",serif;font-size:14px;color:#3b3833}
+
+@media (max-width:880px){
+  .page{padding:30px 16px 44px}
+  h1{font-size:32px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .ccards,.boards{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="kicker">望京博格 · 资金面监控</div>
+    <h1>公司回购<em>与</em>大股东减仓</h1>
+    <div class="sub">
+      <b>{{RANGE}}</b> · 共 <b>{{N}}</b> 个月 · 月度实际发生额（非预案、非公告）<br>
+      两条主线：全 A 公司实际执行的股份回购金额 &nbsp;vs&nbsp; 重要股东二级市场减持金额 &nbsp;·&nbsp; 对照沪深300
+    </div>
+  </header>
+
+  <div class="kpis">{{KPI}}</div>
+
+  <div class="lead">{{LEAD}}</div>
+
+  <section>
+    <div class="sh"><h2>图一 · 买回来的，与卖出去的</h2>
+      <span>上方：公司买回来多少 ｜ 下方：大股东卖出去多少 ｜ 底部：沪深300 站在哪</span></div>
+    <div class="chart-card">
+      {{CHART}}
+      <div class="cap">
+        口径：回购为全 A 上市公司当月实际执行的股份回购金额（含已完成与正在实施的打款额）；减仓为重要股东（董监高以外的持股 5% 以上股东及一致行动人）通过二级市场减持的金额。两者均为月度发生额，非累计值，故月度可比、年度可加总。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>三句话说清这五年</h2><span>每一条都能在图上找到对应位置</span></div>
+    <div class="ccards">{{CONCL}}</div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>图二 · 逐年对账</h2>
+      <span>回购与减仓各自加总，再和公开统计对一遍</span></div>
+    {{YEAR_TABLE}}
+    <div class="cap" style="border:none;padding-left:0">
+      偏差 = 本年减仓合计 ÷ 公开统计的重要股东净减持规模 − 1。本表口径是「减持金额」，公开统计多为「净减持」，前者天然比后者高 10%–20%，故 +10% 左右属正常口径差而非数据错。
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>图三 · 极值月份</h2><span>五年里最猛的十个月</span></div>
+    <div class="boards">{{BOARDS}}</div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>数据准确性检查</h2>
+      <span>十项，逐条可复核</span></div>
+    {{CHECKS}}
+    <div class="corr">
+      <div><b>{{CORR_BUY}}</b>回购额与沪深300 当月涨跌幅的相关系数<br>
+        <span style="color:#9c9487">负值＝跌得越多买得越多，方向正确</span></div>
+      <div><b>{{CORR_RED}}</b>减仓额与沪深300 当月涨跌幅的相关系数<br>
+        <span style="color:#9c9487">正值＝涨得越多卖得越多，方向正确</span></div>
+      <div><b>{{N}} 个月</b>逐月单点取数，零插值、零估算<br>
+        <span style="color:#9c9487">任一月对不上，整条序列就得重取</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <b>口径与边界</b><br>
+    1. 回购：全 A 上市公司当月实际执行的股份回购金额，含注销式与库存股式，不区分用途；不含回购预案金额与股东大会授权额度。<br>
+    2. 减仓：重要股东通过二级市场（集中竞价＋大宗交易）减持的金额合计，不扣除同期增持，故为「毛减仓」；净减仓通常比本数低 10%–20%。<br>
+    3. 沪深300 取月末收盘价，2026-10 为 10 月 30 日收盘。<br>
+    4. 数据来源 Wind，经十项交叉校验；年度合计与公开统计的偏差已在「数据准确性检查」中逐条列明。<br>
+    5. 本页为资金面观察，不构成任何投资建议。<br>
+    <div class="sig">— 望京博格 · 数据截至 {{UPDATED}}</div>
+  </footer>
+
+</div>
+</body>
+</html>
